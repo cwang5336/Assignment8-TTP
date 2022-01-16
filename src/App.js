@@ -1,9 +1,9 @@
 import React from "react";
 import './App.css';
-import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import Home from './components/Home';
 import UserProfile from './components/UserProfile';
-import SignIn from './components/Login.js';
+import Login from './components/Login';
 import Debits from './components/Debits';
 import Credit from './components/Credit';
 import axios from 'axios';
@@ -16,8 +16,8 @@ class App extends React.Component {
     this.state ={
       accountBalance: 0,
       currentUser: {
-        userName: 'bob_loblaw',
-        memberSince: '08/23/99',
+        userName: 'Bob',
+        memberSince: '01/13/2022',
         loggedIn: false
       },
       debits: [],
@@ -26,6 +26,12 @@ class App extends React.Component {
       creditTotal: 0 
 
     }
+  }
+
+  mockLogIn = (logInInfo) => {
+    const newUser = {...this.state.currentUser}
+    newUser.userName = logInInfo.userName
+    this.setState({currentUser: newUser})
   }
 
   componentDidMount(){
@@ -105,19 +111,21 @@ class App extends React.Component {
 
     const HomeComponent = () => (<Home accountBalance={this.state.accountBalance} user={this.state.currentUser} debitTotal={this.state.debitTotal} creditTotal={this.state.creditTotal} />);
     const UserProfileComponent = () => (<UserProfile  user={this.state.currentUser} memberSince={this.state.currentUser.memberSince} accountBalance={this.state.accountBalance} debitTotal={this.state.debitTotal} creditTotal={this.state.creditTotal}/>)
-    const SignInComponent = () => (<SignIn user={this.state.currentUser} LogIn={this.LogIn} {...this.props} />)
+    const LogInComponent = () => (<Login user={this.state.currentUser} mockLogIn={this.mockLogIn} {...this.props}/>)
+    //const SignInComponent = () => (<SignIn user={this.state.currentUser} LogIn={this.LogIn} {...this.props} />)
     const DebitsComponent = () => (<Debits accountBalance={this.state.accountBalance}  user={this.state.currentUser} debits={this.state.debits} addDebit={this.addDebit} debitTotal={this.state.debitTotal} creditTotal={this.state.creditTotal}/>)
     const CreditComponent = () => (<Credit accountBalance={this.state.accountBalance}  user={this.state.currentUser} credit={this.state.credit} addCredit={this.addCredit} debitTotal={this.state.debitTotal} creditTotal={this.state.creditTotal}/>)
     return (
       <Router>
       <div className="App">
-        <Switch>
-        <Route exact path = "/" render={HomeComponent}/>
-        <Route exact path = "/login" render={SignInComponent}/>
-        <Route exact path = "/userProfile" render={UserProfileComponent}/>
-        <Route exact path ="/debits" render={DebitsComponent} />
-        <Route exact path ="/credit" render={CreditComponent} />
-        </Switch>
+        <Routes>
+        <Route exact path = "/" element={<HomeComponent/>}/>
+        {/* <Route path="/login" element={<SignIn user={this.state.currentUser} mockLogIn={this.state.mockLogIn}/>}/> */}
+        <Route exact path = "/Login" element={<LogInComponent/>}/>
+        <Route exact path = "/userProfile" element={<UserProfileComponent/>}/>
+        <Route exact path ="/debits" element={<DebitsComponent/>} />
+        <Route exact path ="/credit" element={<CreditComponent/>} />
+        </Routes>
       </div>
       </Router>
     );

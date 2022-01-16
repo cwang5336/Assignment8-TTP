@@ -48,7 +48,6 @@ class Debits extends Component {
         return (
             <div className="container">
                 <Link to="/">
-                <img src="bank.png" alt="bankimage" className="logo"/>
                 </Link> 
                 <h1>Debits</h1>
                 <div className="linkContainer container">

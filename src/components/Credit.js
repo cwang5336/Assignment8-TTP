@@ -46,7 +46,6 @@ class Credit extends Component {
         return (
             <div className="container">
                 <Link to="/">
-                <img src="bank.png" alt="bankimage" className="logo"/>
                 </Link> 
                 <h1>Credit</h1>
                 <div className="linkContainer">
